@@ -47,6 +47,27 @@ function Patients() {
     title: 'Status',
     dataIndex: 'status',
     key: 'status',
+    filters: [
+      {
+        text: 'Inquiry',
+        value: 'Inquiry',
+      },
+      {
+        text: 'Onboarding',
+        value: 'Onboarding',
+      },
+      {
+        text: 'Active',
+        value: 'Active',
+      },
+      {
+        text: 'Churned',
+        value: 'Churned',
+      },
+
+    ],
+          onFilter: (value, record) => record.status.indexOf(value) === 0,
+
   },
   {
     title: 'Address',
