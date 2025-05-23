@@ -3,6 +3,7 @@ import axios from 'axios';
 import PatientForm from './PatientForm.jsx'
 import SearchBar from './SearchBar.jsx'
 import './Patients.css';
+import EditPatientModal from './EditPatientModal.jsx';
 import { Table, Input, Select } from 'antd';
 
 
@@ -14,11 +15,6 @@ function Patients() {
   const [filterCategory, setFilterCategory] = useState([]);
 
   useEffect(() => {
-    getPatients();
-    setFilterCategory(null);
-  }, []);
-
-  const getPatients = () => {
     axios.get('http://localhost:4000/api/patients')
       .then(res => {
         const patientsWithKey = res.data.map(patient => ({
@@ -29,7 +25,21 @@ function Patients() {
         setStaticPatients(patientsWithKey);
       })
       .catch(err => console.error(err));
-  }
+    setFilterCategory(null);
+  }, [patients]);
+
+  /*const getPatients = () => {
+    axios.get('http://localhost:4000/api/patients')
+      .then(res => {
+        const patientsWithKey = res.data.map(patient => ({
+          ...patient,
+          key: patient._id,
+        }));
+        setPatients(patientsWithKey);
+        setStaticPatients(patientsWithKey);
+      })
+      .catch(err => console.error(err));
+  }*/
 
 
   const columns = [
@@ -95,7 +105,7 @@ function Patients() {
   },
   {
     title: 'Edit',
-    render: (_, record) => <a>Edit</a>
+    render: (_, record) => <a onClick={() => handleToggle(record)}>Edit</a>
   }
 ];
 
@@ -124,12 +134,9 @@ function Patients() {
   
   const handleAddPatients = (newPatient) => {
     setPatients([...patients, { newPatient, key: newPatient._id }]);
-    getPatients();
   };
 
  const deletePatient = async (patient) => {
-  console.log(`Attempting to delete patient with ID: ${patient._id}`);
-
     await axios.delete(`http://localhost:4000/api/patients/${patient._id}`);
     //need to use `` here in order for the string interpolation to work!
 
@@ -138,6 +145,16 @@ function Patients() {
 
     setPatients(newPatients);
     setStaticPatients(newPatients);
+  }
+
+  const [toggle, setToggle] = useState(false);
+  const [modalPatient, setModalPatient] = useState([]);
+
+  const handleToggle = (patient) => {
+    console.log('swag')
+    console.log(patient)
+    setToggle(prev => !prev);
+    setModalPatient(patient);
   }
 
   return (
@@ -149,6 +166,15 @@ function Patients() {
             <SearchBar onType={handleFilter} onSelect={handleFilterCategory} />
 
             <Table columns={columns} dataSource={patients} />
+
+            <div>
+              {toggle ?
+              <EditPatientModal Patient={modalPatient} />
+              :
+              <>
+              </>
+              }
+            </div> 
     </div>
   );
 }

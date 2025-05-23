@@ -40,3 +40,14 @@ app.delete('/api/patients/:id', async (req, res) => {
     res.status(500).send({ message: 'Error deleting patient' });
   }
 });
+
+app.post('/api/patients/:id', async (req, res) => {
+  try {
+    const {firstname, middlename, lastname, dob, status, address} = req.body;
+    const updatedPatient = ({firstname, middlename, lastname, dob, status, address});
+    await Patient.findByIdAndUpdate(req.params.id, updatedPatient);
+    res.status(200).send({ message: 'Patient updated successfully' });
+  } catch (err) {
+    res.status(500).send({ message: 'Error updating patient' });
+  }
+});
