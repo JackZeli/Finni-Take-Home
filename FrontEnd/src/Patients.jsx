@@ -38,21 +38,20 @@ function Patients() {
     title: 'First Name',
     dataIndex: 'firstname',
     key: 'firstname',
-    editable: true,
     sorter: (a, b) => a.firstname.localeCompare(b.firstname), //localeCompare compares strings based on current locale rules
   },
   {
     title: 'Middle Name',
     dataIndex: 'middlename',
     key: 'middlename',
-    sorter: (a, b) => a.middlename.localeCompare(b.middlename), //localeCompare compares strings based on current locale rules
+    sorter: (a, b) => a.middlename.localeCompare(b.middlename), 
 
   },
   {
     title: 'Last Name',
     dataIndex: 'lastname',
     key: 'lastname',
-    sorter: (a, b) => a.lastname.localeCompare(b.lastname), //localeCompare compares strings based on current locale rules
+    sorter: (a, b) => a.lastname.localeCompare(b.lastname), 
   },
   {
     title: 'Date of Birth',
@@ -82,7 +81,7 @@ function Patients() {
       },
 
     ],
-          onFilter: (value, record) => record.status.indexOf(value) === 0,
+    onFilter: (value, record) => record.status.indexOf(value) === 0,
 
   },
   {
@@ -146,7 +145,7 @@ function Patients() {
   const handleToggle = (patient) => {
     setToggle(prev => !prev);
     if (patient) setModalPatient(patient);
-    getPatients();
+    if (toggle === true) getPatients();
   }
 
   return (

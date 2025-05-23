@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Form, Input, Button, DatePicker, Select } from "antd";
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -6,14 +6,6 @@ import "./PatientForm.css";
 
 function PatientForm({ onAdd }) {
   const [form] = Form.useForm();
-
-  const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
 
   const handleSubmit = async (values) => {
 
@@ -32,7 +24,7 @@ function PatientForm({ onAdd }) {
       <Form.Item
         label = "First Name"
         name="firstname"
-        rules={[{ required: true, message: "First Name"}]}
+        rules={[{ required: true, message: "First Name Missing"}]}
       >
         <Input />
       </Form.Item>
@@ -40,7 +32,7 @@ function PatientForm({ onAdd }) {
       <Form.Item
         label = "Middle Name"
         name="middlename"
-        rules={[{ required: true, message: "Middle Name"}]}
+        rules={[{ required: true, message: "Middle Name Missing"}]}
       >
         <Input />
       </Form.Item>
@@ -48,7 +40,7 @@ function PatientForm({ onAdd }) {
       <Form.Item
         label = "Last Name"
         name="lastname"
-        rules={[{ required: true, message: "Last Name"}]}
+        rules={[{ required: true, message: "Last Name Missing"}]}
       >
         <Input />
       </Form.Item>
@@ -56,7 +48,7 @@ function PatientForm({ onAdd }) {
       <Form.Item
         label = "Date of Birth"
         name="dob"
-        rules={[{required: true}]}
+        rules={[{required: true, message: "Date of Birth Missing"}]}
       >
         <DatePicker 
           format="MM/DD/YYYY"
@@ -68,7 +60,7 @@ function PatientForm({ onAdd }) {
       <Form.Item
         label="Status"
         name="status"
-        rules={[{ required: true, message: "Last Name"}]}
+        rules={[{ required: true, message: "Status Missing"}]}
       >
         <Select placeholder="---- Status ----">
           <Option value="Inquiry">Inquiry</Option>
@@ -81,7 +73,7 @@ function PatientForm({ onAdd }) {
       <Form.Item
         label = "Address"
         name="address"
-        rules={[{ required: true, message: "Address"}]}
+        rules={[{ required: true, message: "Address Missing"}]}
       >
         <Input />
       </Form.Item>
