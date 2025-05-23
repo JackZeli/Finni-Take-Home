@@ -11,7 +11,6 @@ function EditPatientModal({ Patient, onSubmit }) {
 	const [form] = Form.useForm();
 
 	const handleSubmit = async (values) => {
-		console.log(Patient._id)
 		const submitData = {
 	      ...values,
 	      dob: values.dob ? values.dob.format('MM/DD/YYYY') : '',

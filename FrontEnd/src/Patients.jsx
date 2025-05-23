@@ -15,20 +15,11 @@ function Patients() {
   const [filterCategory, setFilterCategory] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:4000/api/patients')
-      .then(res => {
-        const patientsWithKey = res.data.map(patient => ({
-          ...patient,
-          key: patient._id,
-        }));
-        setPatients(patientsWithKey);
-        setStaticPatients(patientsWithKey);
-      })
-      .catch(err => console.error(err));
+    getPatients();
     setFilterCategory(null);
-  }, [patients]);
+  }, []);
 
-  /*const getPatients = () => {
+  const getPatients = () => {
     axios.get('http://localhost:4000/api/patients')
       .then(res => {
         const patientsWithKey = res.data.map(patient => ({
@@ -39,7 +30,7 @@ function Patients() {
         setStaticPatients(patientsWithKey);
       })
       .catch(err => console.error(err));
-  }*/
+  }
 
 
   const columns = [
@@ -134,6 +125,7 @@ function Patients() {
   
   const handleAddPatients = (newPatient) => {
     setPatients([...patients, { newPatient, key: newPatient._id }]);
+    getPatients();
   };
 
  const deletePatient = async (patient) => {
@@ -145,16 +137,16 @@ function Patients() {
 
     setPatients(newPatients);
     setStaticPatients(newPatients);
+    getPatients();
   }
 
   const [toggle, setToggle] = useState(false);
   const [modalPatient, setModalPatient] = useState([]);
 
   const handleToggle = (patient) => {
-    console.log('swag')
-    console.log(patient)
     setToggle(prev => !prev);
     if (patient) setModalPatient(patient);
+    getPatients();
   }
 
   return (
@@ -169,10 +161,10 @@ function Patients() {
 
             <div>
               {toggle ?
-              <EditPatientModal Patient={modalPatient} onSubmit={handleToggle} />
-              :
-              <>
-              </>
+                  <EditPatientModal Patient={modalPatient} onSubmit={handleToggle} />
+                :
+                  <>
+                  </>
               }
             </div> 
     </div>
