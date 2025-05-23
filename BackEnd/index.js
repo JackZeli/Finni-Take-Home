@@ -30,3 +30,13 @@ app.post('/api/patients', async (req, res) => {
   await newPatient.save();
   res.status(201).json(newPatient);
 })
+
+
+app.delete('/api/patients/:id', async (req, res) => {
+  try {
+    await Patient.findByIdAndDelete(req.params.id);
+    res.status(200).send({ message: 'Patient deleted successfully' });
+  } catch (err) {
+    res.status(500).send({ message: 'Error deleting patient' });
+  }
+});

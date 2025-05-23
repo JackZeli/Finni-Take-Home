@@ -1,0 +1,11 @@
+.searchBar {
+	display: flex;
+	margin-top: 30px;
+	margin-bottom: 10px;
+	justify-content: center;
+}
+
+.searchBar .ant-input {
+	width: 300px;
+	margin-left: 10px;
+}

@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { Form, Input, Button, DatePicker, Select } from "antd";
 import axios from 'axios';
-
+import dayjs from 'dayjs';
+import "./PatientForm.css";
 
 function PatientForm({ onAdd }) {
-  const [formData, setFormData] = useState({
-    firstname: '',
-    middlename: '',
-    lastname: '',
-    dob: '',
-    status: '',
-    address: '',
-  })
+  const [form] = Form.useForm();
 
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -20,67 +15,84 @@ function PatientForm({ onAdd }) {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await axios.post('http://localhost:4000/api/patients', formData);
+  const handleSubmit = async (values) => {
+
+    const submitData = {
+      ...values,
+      dob: values.dob ? values.dob.format('MM/DD/YYYY') : '',
+    }
+
+    const res = await axios.post('http://localhost:4000/api/patients', submitData);
     onAdd(res.data);
-    setFormData({
-      firstname: '',
-      middlename: '',
-      lastname: '',
-      dob: '',
-      status: '',
-      address: '',
-    })
+    form.resetFields();
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <Form form={form} onFinish={handleSubmit} className="patient-form">
+      <Form.Item
+        label = "First Name"
         name="firstname"
-        value={formData.firstname}
-        onChange={handleChange}
-        placeholder="First Name"
-      />
-      <input
-        name="middlename"
-        value={formData.middlename}
-        onChange={handleChange}
-        placeholder="Middle Name"
-      />
-      <input
-        name="lastname"
-        value={formData.lastname}
-        onChange={handleChange}
-        placeholder="Last Name"
-      />
-      <input
-        name="dob"
-        value={formData.dob}
-        onChange={handleChange}
-        placeholder="Date of Birth"
-        type="date"
-      />
-      <select
-        name="status"
-        value={formData.status}
-        onChange={handleChange}
-        placeholder="Status"
+        rules={[{ required: true, message: "First Name"}]}
       >
-        <option value="">--- Status ---</option>
-        <option value="Inquiry">Inquiry</option>
-        <option value="Onboarding">Onboarding</option>
-        <option value="Active">Active</option>
-        <option value="Churned">Churned</option>
-      </select>
-      <input
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label = "Middle Name"
+        name="middlename"
+        rules={[{ required: true, message: "Middle Name"}]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label = "Last Name"
+        name="lastname"
+        rules={[{ required: true, message: "Last Name"}]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label = "Date of Birth"
+        name="dob"
+        rules={[{required: true}]}
+      >
+        <DatePicker 
+          format="MM/DD/YYYY"
+          allowClear
+          inputReadOnly={false}
+        />
+      </Form.Item>
+
+      <Form.Item
+        label="Status"
+        name="status"
+        rules={[{ required: true, message: "Last Name"}]}
+      >
+        <Select placeholder="---- Status ----">
+          <Option value="Inquiry">Inquiry</Option>
+          <Option value="Onboarding">Onboarding</Option>
+          <Option value="Active">Active</Option>
+          <Option value="Churned">Churned</Option>
+        </Select>
+      </Form.Item>
+
+      <Form.Item
+        label = "Address"
         name="address"
-        value={formData.address}
-        onChange={handleChange}
-        placeholder="Address"
-      />
-      <button type="submit">Add Patient</button>
-    </form>
+        rules={[{ required: true, message: "Address"}]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item className="submit" label={null}>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+
+    </Form>
   );
 }
 
