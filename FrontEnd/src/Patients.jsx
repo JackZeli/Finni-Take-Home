@@ -154,7 +154,7 @@ function Patients() {
     console.log('swag')
     console.log(patient)
     setToggle(prev => !prev);
-    setModalPatient(patient);
+    if (patient) setModalPatient(patient);
   }
 
   return (
@@ -169,7 +169,7 @@ function Patients() {
 
             <div>
               {toggle ?
-              <EditPatientModal Patient={modalPatient} />
+              <EditPatientModal Patient={modalPatient} onSubmit={handleToggle} />
               :
               <>
               </>
