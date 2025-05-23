@@ -103,7 +103,7 @@ function EditPatientModal({ Patient, onSubmit }) {
 			          Cancel
 			        </Button>
 			        <Button type="primary" htmlType="submit">
-			          Submit
+			          Update
 			        </Button>
 			      </Form.Item>
 
