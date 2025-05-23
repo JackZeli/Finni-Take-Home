@@ -31,3 +31,8 @@
 .modal .ant-select {
 	width: 200px;
 }
+
+.cancel {
+	background-color: orange;
+	margin-right: 10px;
+}

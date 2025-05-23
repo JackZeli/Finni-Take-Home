@@ -100,6 +100,9 @@ function EditPatientModal({ Patient, onSubmit }) {
 			      </Form.Item>
 
 			      <Form.Item className="submit" label={null}>
+			      	<Button type="primary" className="cancel" htmlType="submit">
+			          Cancel
+			        </Button>
 			        <Button type="primary" htmlType="submit">
 			          Submit
 			        </Button>
